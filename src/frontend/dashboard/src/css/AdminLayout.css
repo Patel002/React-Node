@@ -1,0 +1,123 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+.main-sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.content-wrapper {
+    margin-left: 250px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.content {
+    padding: 20px;
+    background-color: #f4f6f900;
+}
+
+.main-header.navbar {
+    z-index: 100;
+    position: sticky;
+    top: 0;
+}
+.nav-treeview {
+    display: block; 
+    padding-left: 15px;
+    transition: all 1s ease !important;
+}
+
+.nav-item {
+    display: block; 
+    margin-bottom: 5px; 
+    /* transition: all 1s ease !important; */
+}
+
+.nav-link {
+    display: flex; 
+    align-items: center;
+    padding-left: 15px; 
+}
+
+.nav-link .nav-icon {
+    margin-right: 10px; 
+}
+
+.nav-sidebar .nav-link.active {
+    background-color: #2b598b;
+    color: rgb(230, 177, 32);
+}
+
+.collapse {
+    display: none; 
+    transition: all 1s ease !important;
+}
+
+.nav-item.has-treeview > .nav-link {
+    padding-left: 25px; 
+}
+
+.fas.fa-angle-left, .fas.fa-angle-down {
+    transition: transform 0.3s ease;
+}
+
+.fas.fa-angle-left {
+    transform: rotate(0deg);
+}
+
+.fas.fa-angle-down {
+    transform: rotate(0deg);
+}
+
+.collapse + .nav-item {
+    padding-left: 0; 
+}
+
+.form-control-sidebar {
+    background-color: #343a40;
+    color: white !important;
+    padding: 8px;
+
+}
+
+.input-group-append{
+    border: none !important;
+}
+
+.form-control-sidebar::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.form-control-sidebar:focus {
+    background-color: #343a40 !important;
+    color: rgb(0, 0, 0) !important;
+    border-color: #555 !important;
+    box-shadow: none !important;
+}
+
+.btn-sidebar {
+    background-color: #6c757d; 
+    color: white;
+    border-radius:6px
+}
+
+.btn-sidebar:hover {
+    background-color: #343a40!important;
+    color: white !important;
+}
+
+.input-group {
+    border-radius: 5px !important; 
+    overflow: hidden !important;
+}
+.form-inline {
+    margin-bottom: 10px !important;
+}
+

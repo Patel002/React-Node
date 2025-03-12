@@ -1,0 +1,26 @@
+.content-wrapper {
+    min-height: 100vh !important;
+    min-width: 83.7vw !important;
+}
+.card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px !important;
+}
+
+
+.alert {
+    padding: 5px;
+    font-size: 14px;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.input-group select {
+    max-width: 30%;
+}

@@ -1,0 +1,10 @@
+.btn.btn-danger{
+    background-color: rgb(41, 91, 133) !important;
+    border: none;
+    margin-left: 90%;
+    width: 100px; 
+}
+
+/* .content-wrapper{
+    width: 70vw !important;
+} */
