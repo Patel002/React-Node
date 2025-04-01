@@ -1,7 +1,8 @@
 import { sequelize } from '../sequelize.js';
 import { DataTypes } from 'sequelize';
 import { Role } from './roles.model.js';
-import { Menu } from './menu.model.js';    
+import { Menu } from './menu.model.js';
+import { SubMenu } from './subMenu.model.js';    
 
 const Permission = sequelize.define('permission', {
     roleId:{
@@ -14,11 +15,19 @@ const Permission = sequelize.define('permission', {
     },
     menuId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: Menu,
         key: 'id'
       }
+    },
+    subMenuId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: SubMenu,
+            key: 'id'
+        }
     },
     read: {
         type: DataTypes.BOOLEAN,
@@ -30,7 +39,7 @@ const Permission = sequelize.define('permission', {
         allowNull: false,
         defaultValue: false
     },
-    update: {
+    canUpdate: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false

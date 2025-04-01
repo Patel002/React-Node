@@ -23,11 +23,16 @@
     background-color: #f4f6f900;
 }
 
+.brand-link{
+    text-decoration: none;    
+}
+
 .main-header.navbar {
     z-index: 100;
     position: sticky;
     top: 0;
 }
+
 .nav-treeview {
     display: block; 
     padding-left: 15px;
@@ -51,13 +56,16 @@
 }
 
 .nav-sidebar .nav-link.active {
-    background-color: #2b598b;
-    color: rgb(230, 177, 32);
+    background-color: #116bcb76 ;
+    color: rgb(1, 166, 255);
 }
 
+.nav-icon.fas.fa-user-shield {
+    margin-left: -10px !important; 
+}
 .collapse {
-    display: none; 
-    transition: all 1s ease !important;
+    display: none;
+    /* transition: all 0.3s ease !important; */
 }
 
 .nav-item.has-treeview > .nav-link {
@@ -65,15 +73,18 @@
 }
 
 .fas.fa-angle-left, .fas.fa-angle-down {
-    transition: transform 0.3s ease;
+    transform: rotate(0deg) !important;
+
 }
 
 .fas.fa-angle-left {
     transform: rotate(0deg);
+    /* transition: all 3s ease !important; */
 }
 
 .fas.fa-angle-down {
     transform: rotate(0deg);
+    /* transition: all 3s ease !important; */
 }
 
 .collapse + .nav-item {

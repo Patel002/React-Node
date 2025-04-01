@@ -10,6 +10,8 @@ import RoleSelection from "./components/RoleSelection";
 import RolePermission from "./components/RolePermission";
 import User from "./components/User";
 import EditUser from "./components/EditUser";
+import ProtectedRoute from  "./components/ProtectedRoutes";
+import UnauthorizedPage from "./components/UnAuthorizedPage";
 
 function App() {
     return (
@@ -18,16 +20,18 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<AdminLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
+          <Route element={<ProtectedRoute allowedRole="super admin" />}>
               <Route path="register" element={<RegisterUser />} />
               <Route path="roles" element={<Role />} />
               <Route path="menu" element={<MenuManagement />} />
               <Route path="submenu" element={<SubMenu />} />
               <Route path="/roleselection" element={<RoleSelection />} />
               <Route path="/permissions" element={<RolePermission />} />
-              {/* <Route path="sidebar" element={<Sidebar />} /> */}
               <Route path="user" element={<User />} />
               <Route path="/edituser" element={<EditUser />} />
+          </Route>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="unauthorized" element={<UnauthorizedPage />} />
           </Route>
       </Routes>
   </Router>

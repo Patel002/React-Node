@@ -1,7 +1,7 @@
 import {User} from "../model/user.model.js";
+import { Role } from "../model/roles.model.js";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
-import bcrypt from 'bcrypt'
 
 const getAllUserData = async (req, res) => {
     const {userName,firstName, lastName, email, password,role} = req.body;
@@ -61,60 +61,9 @@ const getAllUserData = async (req, res) => {
     }
 }
 
-const getUser = async(req,res) => {
-    const {userName, password} = req.body;
-    
-    if(!userName || !password) {
-        return res.status(400).json({message: "All fields are required"});    
-    }
-
-    try {
-        const user = await User.findOne({
-            where: {
-                userName 
-            }
-        })
-
-        if(!user){
-            return res.status(404).json({
-                message: "User not found",
-                success: false
-            })
-        }
-
-        const isPasswordValid = await user.validatePassword(password);
-        // console.log(isPasswordValid);
-
-        if(!isPasswordValid){
-            return res.status(400).json({
-                message: "You are Unauthorized to login",
-                success: false
-            })
-        }
-
-        const token = jwt.sign({
-            userName,
-            password,
-            role: user.role
-        },process.env.JWT_SECRET_KEY,{
-            expiresIn: "7h"})
-
-            console.log(token, user.role,user.userName);
-
-        return res.status(200).json({
-            message: `${user.role} logged in successfully`,
-            token,
-            success: true
-        })
-
-    } catch (error) {
-        console.log("error while getting user", error);
-    }
-}
 
 const getUsers = async (req, res) => {
     try {
-
         const users = await User.findAll();
 
         if(!users){
@@ -133,78 +82,137 @@ const getUsers = async (req, res) => {
     }
 }
 
-const updateUser = async (req, res) => {
-    const { id } = req.params;
-    let updateFields = req.body;
-
+const updateUser = async ( req, res) => {
+    const {fullName, lastName, userName, email, phone,role} = req.body;
     try {
-        if (!id) {
-            return res.status(400).json({
-                message: "User ID is required",
-                success: false
-            });
-        }
-
+        const {id} = req.params;
+        
         const user = await User.findByPk(id);
         if (!user) {
-            return res.status(404).json({
-                message: "User not found",
-                success: false,
-            });
+            return res.status(404).json({ success: false, message: "User not found" });
         }
 
-        updateFields = Object.fromEntries(
-            Object.entries(updateFields).filter(([_, value]) => value !== null && value !== undefined)
-        );
-
-        if (Object.keys(updateFields).length === 0) {
-            return res.status(200).json({
-                message: "No changes made",
-                success: true,
-                user
-            });
-        }
-
-        if (updateFields.password) {
-            if (updateFields.password === user.password) {
-                delete updateFields.password;
-            } else {
-                updateFields.password = await bcrypt.hash(updateFields.password, 8);
-            }
-        }
-
-        if (updateFields.phone) {
-            const phoneRegex = /^\+?\d{1,4}?[ -]?\d{10,15}$/;
-            if (!phoneRegex.test(updateFields.phone)) {
-                return res.status(400).json({
-                    message: "Phone number must be valid (10-15 digits, optional country code)",
-                    success: false
-                });
-            }
-        }
-
-        await user.update(updateFields, { validate: true });
-
-        return res.status(200).json({
-            message: "User updated successfully",
-            success: true,
-            user
+        await user.update({
+            fullName,
+            lastName,
+            userName,
+            email,
+            phone: phone || null,
+            role
         });
 
+        return res.status(200).json({ success: true, message: "User updated successfully", user });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            message: "Error while updating user",
-            error: error.message
-        });
+        console.error("Error updating user:", error);
+        return res.status(500).json({ success: false, message: "Error updating user", error });
     }
 };
 
 
+const updatePassword = async (req,res) => {
+const {newPassword, confirmPassword} = req.body;
+const {id} = req.params;
+try {
+    
+    if(!newPassword || !confirmPassword){
+        return res.status(400).json({message: "All password fields are required"});
+    }
+
+    if(newPassword !== confirmPassword){
+        return res.status(400).json({message: "Passwords do not match"});
+    }
+    
+    const user = await User.findByPk(id);
+    if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    user.password = newPassword
+    const passwordUpdated = await user.save(); 
+
+
+    return res.status(200).json({ success: true, message: "Password updated successfully", passwordUpdated, confirmPassword });
+
+} catch (error) {
+    console.log(error);
+    return res.status(500).json({message: "Error while updating password",error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+}
+
+const loginUser = async(req, res) => {
+    try {
+        const { userName, password } = req.body;
+
+        if(!userName || !password){
+            return res.status(400).json({
+                message: "For login, all fields are required"
+            })
+        }
+
+        const user = await User.findOne({
+            where: {
+                userName
+            },
+            include: [
+                {
+                    model: Role,
+                    as: "userRole",
+                    attributes: ["id", "roleName"]
+                }
+            ]
+        })
+
+        console.log("USER",user);
+
+        if(!user){
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            })
+        }
+
+        const roleId = user.userRole ? user.userRole.id : null; 
+        // console.log("roleId",roleId);
+
+        const isPasswordValid = await user.validatePassword(password);
+        console.log(isPasswordValid, password, user.password);
+
+        if(!isPasswordValid){
+            return res.status(400).json({
+                message: "Login password is incorrect",
+                success: false
+            })
+        }
+        const token = jwt.sign({
+            userName,
+            password,
+            role: user.role,
+            roleId
+        }, process.env.JWT_SECRET_KEY, {
+            expiresIn: "7h"
+        })
+
+        return res.status(200).json({
+            message: `${user.role} logged in successfully`,
+            token,
+            success: true
+        })
+
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Error while login user",
+            error: error.message
+        })
+    }
+}
 
 export {
     getAllUserData,
-    getUser,
     getUsers,
-    updateUser
+    updateUser,
+    updatePassword,
+    loginUser
 }

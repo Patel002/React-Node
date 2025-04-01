@@ -3,6 +3,7 @@ import axios from "axios";
 import "datatables.net-bs5";
 import $ from "jquery";
 import '../css/Menu.css'
+import showToast from "../helper/Toast";
 const MenuManagement = () => {
     const [menu, setMenu] = useState([]);
     const [error, setError] = useState('');
@@ -23,7 +24,7 @@ const MenuManagement = () => {
 
     useEffect(() => {
         if (menu.length > 0) {
-            $(tableRef.current).DataTable(); 
+            $(tableRef.current).DataTable();
         }
     }, [menu]);
 
@@ -40,7 +41,7 @@ const MenuManagement = () => {
     };
 
     const handleEdit = (menuItem) => {
-        setEditData(menuItem); 
+        setEditData(menuItem);
         setFormData({
             menuName: menuItem.menuName,
             url: menuItem.url,
@@ -65,9 +66,9 @@ const MenuManagement = () => {
             }
 
             await axios.patch(`http://localhost:7171/api/menu/update-menu/${editData.id}`, updatedFields);
-            setEditData(null); 
+            setEditData(null);
             fetchMenu();
-            alert('Menu updated successfully');
+            showToast("success", 'Menu updated successfully');
             setError('');
         } catch (error) {
             setError(error.response?.data?.message);
@@ -158,7 +159,7 @@ const MenuManagement = () => {
                         <div className="col-md-5">
                             <div className="card">
                                 <div className="card-header bg-white text-black mt-2">
-                                    <h3 className="card-title"> <i className ="fa-solid fa-plus mr-2" />{editData ? "Update Menu" : "Add Menu"}</h3>
+                                    <h3 className="card-title"> <i className="fa-solid fa-plus mr-2" />{editData ? "Update Menu" : "Add Menu"}</h3>
                                 </div>
                                 <div className="card-body">
                                     <form onSubmit={editData ? handleUpdate : handleSubmit}>
@@ -185,8 +186,8 @@ const MenuManagement = () => {
                                                 <option value="INACTIVE">Inactive</option>
                                             </select>
                                         </div>
-                                        <button type="submit" className="btn btn-primary w-25"aria-hidden="true" >  
-                                        <i className="fa-solid fa-check mr-2" />{editData ? 'Update' : 'Save'}
+                                        <button type="submit" className="btn btn-primary w-25" aria-hidden="true" >
+                                            <i className="fa-solid fa-check mr-2" />{editData ? 'Update' : 'Save'}
                                         </button>
 
                                         <button type="button" onClick={handleReset} className="btn w-25 ml-2 bg-danger">Reset</button>
@@ -200,7 +201,7 @@ const MenuManagement = () => {
                             <div className="card">
                                 <div className="card-header bg-white text-black mt-2">
                                     <h3 className="card-title">
-                                    <i className="fa-solid fa-list-check mr-2" />
+                                        <i className="fa-solid fa-list-check mr-2" />
                                         Menus List</h3>
                                 </div>
                                 <div className="card-body">

@@ -1,10 +1,21 @@
-.btn.btn-danger{
+.btn.btn-danger.ml-3{
     background-color: rgb(41, 91, 133) !important;
     border: none;
-    margin-left: 90%;
-    width: 100px; 
+    margin-left: 90% !important;
+    margin-top: 20px;
 }
 
-/* .content-wrapper{
-    width: 70vw !important;
-} */
+.content-wrapper{
+    overflow-x: hidden !important;
+    /* position:  fixed !important; */
+}
+
+.container-fluid{
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.btn.btn-primary{
+    background-color: rgb(41, 91, 133) !important;
+    border: none;
+}

@@ -13,7 +13,7 @@ const RoleSelection = () => {
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("selectedRole", selectedRole);
+        sessionStorage.setItem("selectedRole", selectedRole);
     }, [selectedRole]);
 
     const fetchRoles = async () => {
@@ -37,7 +37,9 @@ const RoleSelection = () => {
             
             const response = await axios.get(`http://localhost:7171/api/permission/list-permission?roleId=${selectedRole}`);
            
-            localStorage.setItem("permission", JSON.stringify(response.data.menu));
+            // sessionStorage.setItem("permission", JSON.stringify(response.data.menu));
+
+            console.log('permission from role selection',JSON.stringify(response.data.menu));
 
         } catch (error) {
         setError(error.response?.data?.message);
@@ -79,6 +81,7 @@ const RoleSelection = () => {
                                 <select
                                     className="form-control"
                                     value={selectedRole}
+                                    required = {true}
                                     onChange={(e) => setSelectedRole(e.target.value)}
                                 >
                                     <option value="">Select</option>

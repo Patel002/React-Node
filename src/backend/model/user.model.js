@@ -8,7 +8,6 @@ const User = sequelize.define('user', {
         allowNull: false,
         unique: true
     },
-
     firstName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -30,7 +29,7 @@ const User = sequelize.define('user', {
         allowNull: false,
         validate: {
             is: {
-                args:/^[a-zA-Z0-9!@#$%^&*()-_+=]{6,}$/,
+                args:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{6,}$/,
                 msg: 'Password must be atleast 6 characters long'
             }
         }
@@ -54,12 +53,17 @@ const User = sequelize.define('user', {
 })
 
 User.beforeSave(async (user) => {
-    if(user.password) {
+    if(user.changed('password')) {
+        console.log("Original Password:", user.password);
         user.password = await bcrypt.hash(user.password, 8);
+        console.log("Hashed Password Before Saving:", user.password);
+
     }
 })
 
 User.prototype.validatePassword = async function(password) {
+    console.log("Input Password:", password);
+    console.log("Stored Hashed Password:", this.password);
     return await bcrypt.compare(password, this.password);
 }
 

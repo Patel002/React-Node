@@ -19,7 +19,6 @@ const superAdminRegister = async (req, res) => {
             return res.status(400).json({message: "Super Admin already exists"});
         }
 
-
         const user = await User.create({
             userName,
             firstName,
@@ -68,11 +67,12 @@ const loginSuperAdmin = async (req, res) => {
             id: user.id,
             userName: user.userName,
             role: user.role,
+            roleId: 1
         }, process.env.JWT_SECRET_KEY, {
             expiresIn: "1d"
         });
 
-        console.log("login token superadmin///:=",token)
+        console.log("login token superadmin:-",token)
 
         return res.status(200).json({
             message: "Super Admin logged in successfully",

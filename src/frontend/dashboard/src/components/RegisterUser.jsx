@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useLocation } from "react-router-dom";
 // import { debounce } from "lodash";
 import '../css/Register.css';
+import showToast from "../helper/Toast";
 
 const countryCodes = [
     { code: "+1",  country: "USA" },
@@ -95,7 +96,7 @@ const RegisterUser = () => {
             upperCase: /[A-Z]/.test(password),
             lowerCase: /[a-z]/.test(password),
             number: /[0-9]/.test(password),
-            specialChar: /[!@#$%^&*()-_+=]/.test(password)
+            specialChar: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{6,}$/.test(password)
         })? "Invalid Password": "Valid Password";
     };
 
@@ -116,12 +117,12 @@ const RegisterUser = () => {
         const phoneNumber = formData.phone ? formData.countryCode + formData.phone : null;
 
         if (Object.values(passwordValidation).includes(false)) {
-            alert("Please meet all password requirements before submitting.");
+            showToast("Please meet all password requirements before submitting.");
             return;
         }
 
         if (Object.values(emailValidation).includes(false)) {
-            alert("Please enter a valid email address before submitting.");
+            showToast("Please enter a valid email address before submitting.");
             return;
         }
 
@@ -132,12 +133,12 @@ const RegisterUser = () => {
             },{
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                 }
             });
             console.log("response data",response.data);
             if(response.status === 200 || response.status === 201){
-                alert('User Registered Successfully');
+                showToast('User Registered Successfully');
 
                 setFormData({
                     userName: '',
@@ -154,7 +155,7 @@ const RegisterUser = () => {
         }
         catch (error) {
             console.error(error);
-            alert(`User Registration Failed: ${error.response?.data?.message || 'Unknown error'}`);
+            showToast(`User Registration Failed: ${error.response?.data?.message || 'Unknown error'}`);
         }
     };
 
@@ -177,8 +178,6 @@ const RegisterUser = () => {
                             <h3 className="card-title">Register User</h3>
                         </div> */}
                         <form onSubmit={handleSumbit}>
-                        <div className="form-group">
-                        </div>
                             <div className="card-body">
                                 <div className="row">
                                     <div className="col-md-4">

@@ -13,11 +13,13 @@ const User = () => {
 
     useEffect(() => {
         fetchUsers();
-    })
+    },[])
 
     useEffect(() => {
         if (user.length > 0) {
-            $(tableRef.current).DataTable(); 
+            if (!$.fn.DataTable.isDataTable(tableRef.current)) {
+                $(tableRef.current).DataTable();
+            }
         }
     }, [user]);
 
@@ -28,7 +30,7 @@ const User = () => {
         const response = await axios.get(`http://localhost:7171/api/user-data/list-users`,{
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
             }
         })
         setuser(response.data.users);
@@ -44,12 +46,30 @@ const User = () => {
     };
 
     return (
-        <div className="content-wrapper">
-            <div className="content-header">
-                <h3>User List</h3>
-            </div>
+        <div className="content-wrapper position-fixed">
+                       <section className="content-header">
+                <div className="container-fluid">
+                    <div className="row mb-2">
+                        <div className="col-sm-6">
+                            <h1>User</h1>
+                        </div>
+                        <div className="col-sm-6">
+                            <ol className="breadcrumb float-sm-right">
+                                <li className="breadcrumb-item"><a href="/dashboard "><i className="fa-solid fa-house" /></a></li>
+                                <li className="breadcrumb-item active">User </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="content">
              <div className="card">
-                <button className="btn btn-danger mt-3 text-center float-end " onClick={() => navigate("/Register")}>Add User</button>
+                <div className="card-header">
+                    <h5>User List</h5>
+                </div>
+                <div className="container-fluid">
+                <button className="btn btn-danger ml-3 text-center " onClick={() => navigate("/Register")}>Add User</button>
             <div className="content">
                 <table ref={tableRef} className="table table-bordered table-striped table-compact">
                     <thead>
@@ -77,8 +97,11 @@ const User = () => {
                         ))}
                     </tbody>
                 </table>
-            </div>
-            </div>
+                </div>
+                </div>
+                </div>
+                </section>
+                
         {error && <div className="alert alert-danger">{error}</div>}
         </div>
     );

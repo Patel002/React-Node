@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import $ from "jquery";
 import "datatables.net-bs5";
+import showToast from "../helper/Toast";
 
 const SubMenu = () => {
     const [SubMenus, setSubMenus] = useState([]);
@@ -55,14 +56,14 @@ const SubMenu = () => {
             await axios.patch(`http://localhost:7171/api/submenu/update-sub-menu/${editData.id}`, updatedFields);
             setEditData(null); 
             fetchSubMenu();
-            alert('Menu updated successfully');
+            showToast("success",'Menu updated successfully');
             setError('');
         } catch (error) {
             setError(error.response?.data?.message);
         }
     };
 
-
+    
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this menu?")) return;
         try {
@@ -135,7 +136,6 @@ const SubMenu = () => {
             active: "ACTIVE",
         });
     };
-
 
     return (
         <div className="content-wrapper">
