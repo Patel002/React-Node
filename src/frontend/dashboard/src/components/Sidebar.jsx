@@ -20,11 +20,11 @@ const SidebarMenu = ({ menuStructure, role }) => {
         }
     }, []);
 
-    useEffect(() => {
+    useEffect(() => {   
         console.log("Menu Structure:", menuStructure);
         console.log("User Role (Prop):", role);
         console.log("User Role (Token):", tokenRole);
-        console.log("Current Path:", location.pathname);
+        console.log("Current Path:", location.pathname);    
     }, [menuStructure, role, tokenRole, location.pathname]);
 
     const toggleCollapse = (menuId) => {
@@ -69,20 +69,20 @@ const SidebarMenu = ({ menuStructure, role }) => {
                 <li key={menu.id} className={`nav-item ${menu.submenus.length > 0 ? "has-treeview" : ""} `}>
                     {menu.submenus.length > 0 ? (
                         <>
-                            <a href="#" className="nav-link" onClick={() => toggleCollapse(menu.id)}>
-                                <i className={`nav-icon ${menu.icon || "fas fa-circle"}`} />
+                            <a href="" className="nav-link" style = {{cursor:"pointer", padding:"8px",marginLeft:"9px"}} onClick={() => toggleCollapse(menu.id)}>
+                                <i className={`nav-icon ${menu.icon || "fas fa-circle"}`} style={{ marginRight: "10px" }} />
                                 <p>
                                     {menu.menuName}
-                                    {/* <i className={`right fas ${collapsedMenus[menu.id] ? "fa-angle-down" : "fa-angle-left"}`}></i> */}
                                 </p>
                             </a>
-                            <ul className={`nav nav-treeview ${collapsedMenus[menu.id] ? "menu-open" : "menu-closed"}`}>
+                            <ul className={`nav nav-treeview transition ${collapsedMenus[menu.id] ? "menu-open" : "menu-close"}`}style={{paddingLeft:'20px', marginBottom:'-3px'}}>
                                 {renderMenuItems(menu.submenus)}
                             </ul>
                         </>
                     ) : (
-                        <Link to={menu.url || "#"} className={`nav-link ${location.pathname === menu.url ? "active" : ""}`}>
-                            <i className={`nav-icon ${menu.icon || "	fa-regular fa-circle"}`} />
+                        <Link to={menu.url || "#"} className={`nav-link ${location.pathname === menu.url ? "active" : ""}`}
+                            style={{ padding: "8px", marginLeft: "9px" }}>
+                            <i className={`nav-icon ${menu.icon || "fa-brands fa-pied-piper-hat"}`} />
                             <p>{menu.menuName}</p>
                         </Link>
                     )}
@@ -101,17 +101,17 @@ const SidebarMenu = ({ menuStructure, role }) => {
     }
 
     return (
-        <nav className="mt-2">
+        <nav className="mt-2 adminlte-sidebar">
             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-                {structuredMenu.length > 0 && (
-                    <>
-                        <li className="nav-header font-weight-bold">Menu</li>
+            <li className="nav-header font-weight-bold">Menu</li>
                         <li className="nav-item">
                                         <Link to="/dashboard" className={`nav-link d-flex align-items-center ${location.pathname === "/dashboard" ? "active" : ""}bg-secondry`}>
                                             <i className="nav-icon fas fa-tachometer-alt"></i>
                                             <p className="ml-2 mb-0">Dashboard</p>
                                         </Link>
                                     </li>
+                {structuredMenu.length > 0 && (
+                    <>
                         {renderMenuItems(structuredMenu)}
                     </>
                 )}

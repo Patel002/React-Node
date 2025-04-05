@@ -8,7 +8,7 @@ const addPermission = async (req, res) => {
         const {roleId,menuId,subMenuId,read, write, canUpdate, deletePermission,startTime,endTime} = req.body;
 
         const subMenuIdValue = subMenuId !== undefined ? subMenuId : null;
-
+        
         const roleExists = await Role.findByPk(roleId);
         if (!roleExists) {
             return res.status(404).json({ success: false, message: "Role not found" });
@@ -47,6 +47,14 @@ const addPermission = async (req, res) => {
                 subMenuId: subMenuIdValue
             },
         });
+
+        const currentTime = new Date();
+
+        if(permission && permission.endTime && (permission.endTime) < currentTime) {
+            await permission.destroy();
+            permission = null;
+            return res.status(400).json({ success: false, message: "Permission is already expired" });
+        }
 
         if(permission) {
             await permission.update({
@@ -321,91 +329,92 @@ const getAllMenuPermissions = async (req, res) => {
 //     }
 // };
 
-const getSidebarMenuByRole = async (req, res) => {
-    const { roleId } = req.query;
-    try {
-        if (!roleId) {
-            return res.status(400).json({ success: false, message: "Role ID is required" });
-        }
-        
-        const permissions = await Permission.findAll({
-            where: { roleId },
-            include: [
-                {
-                    model: Menu,
-                    as: "Menu",
-                    attributes: ["id", "menuName", "parent", "url", "icon"],
-                    required: false
-                },
-                {
-                    model: SubMenu,
-                    as: "SubMenu",
-                    attributes: ["id", "subMenuName", "mainMenu", "url"],
-                    required: false
-                }
-            ],
-            raw: true 
-        });
-
-        if (!permissions.length) {
-            return res.status(404).json({ success: false, message: "No permissions found for this role." });
-        }
-
-        const menuMap = new Map();
-        const subMenuMap = new Map();
-
-        permissions.forEach(perm => {
-            if (perm.menuId && !perm.subMenuId && perm['Menu.id']) {
-                menuMap.set(perm['Menu.id'], {
-                    id: perm['Menu.id'],
-                    menuName: perm['Menu.menuName'],
-                    parent: perm['Menu.parent'],
-                    url: perm['Menu.url'],
-                    icon: perm['Menu.icon'],
-                    subMenus: []
-                });
+    const getSidebarMenuByRole = async (req, res) => {
+        const { roleId } = req.query;
+        try {
+            if (!roleId) {
+                return res.status(400).json({ success: false, message: "Role ID is required" });
             }
             
-            if (perm.subMenuId && perm['SubMenu.id']) {
-                subMenuMap.set(perm['SubMenu.id'], {
-                    id: perm['SubMenu.id'],
-                    menuName: perm['SubMenu.subMenuName'],
-                    parent: perm['SubMenu.mainMenu'],
-                    url: perm['SubMenu.url'],
-                    icon: null
-                });
+            const permissions = await Permission.findAll({
+                where: { roleId },
+                include: [
+                    {
+                        model: Menu,
+                        as: "Menu",
+                        attributes: ["id", "menuName", "parent", "url", "icon"],
+                        read: true,
+                    },
+                    {
+                        model: SubMenu,
+                        as: "SubMenu",
+                        attributes: ["id", "subMenuName", "mainMenu", "url"],
+                        required: false
+                    }
+                ],
+                raw: true,
+            });
+
+            if (!permissions.length) {
+                return res.status(404).json({ success: false, message: "No permissions found for this role." });
             }
-        });
 
-        subMenuMap.forEach(subMenu => {
-            if (menuMap.has(subMenu.parent)) {
-                menuMap.get(subMenu.parent).subMenus.push(subMenu);
-            } else {
-                menuMap.set(subMenu.id, {
-                    ...subMenu,
-                    subMenus: []
-                });
-            }
-        });
+            const menuMap = new Map();
+            const subMenuMap = new Map();
 
-        const menuTree = Array.from(menuMap.values());
+            permissions.forEach(perm => {
+                if (perm.menuId && perm['Menu.id']) {
+                    menuMap.set(perm['Menu.id'], {
+                        id: `menu_${perm['Menu.id']}`,
+                        menuName: perm['Menu.menuName'],
+                        parent: perm['Menu.parent'],
+                        url: perm['Menu.url'],
+                        icon: perm['Menu.icon'],
+                        subMenus: []
+                    });
+                }
 
-        return res.status(200).json({
-            success: true,
-            message: "Permission list fetched successfully",
-            data: menuTree
-        });
+                if (perm.subMenuId && perm['SubMenu.id']) {
+                    subMenuMap.set(perm['SubMenu.id'], {
+                        id: `submenu_${perm['SubMenu.id']}`,
+                        menuName: perm['SubMenu.subMenuName'],
+                        parent: perm['SubMenu.mainMenu'],
+                        url: perm['SubMenu.url'],
+                        icon: null
+                    });
+                }
+            });
 
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            success: false,
-            message: "Error while getting permission list",
-            error: error.message
-        });
-    }
-};
+            subMenuMap.forEach(subMenu => {
+                if (menuMap.has(subMenu.parent)) {
+                    menuMap.get(subMenu.parent).subMenus.push(subMenu);
+                } else {
+                    menuMap.set(subMenu.id, {
+                        ...subMenu,
+                        subMenus: []
+                    });
+                }
+            });
 
+            const menuTree = Array.from(menuMap.values());
+
+            return res.status(200).json({
+                success: true,
+                message: "Permission list fetched successfully",
+                data: menuTree
+            });
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({
+                success: false,
+                message: "Error while getting permission list",
+                error: error.message
+            });
+        }
+    };
+
+ 
 
 export{
     addPermission,

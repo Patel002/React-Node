@@ -36,13 +36,11 @@
 .nav-treeview {
     display: block; 
     padding-left: 15px;
-    transition: all 1s ease !important;
 }
 
 .nav-item {
     display: block; 
     margin-bottom: 5px; 
-    /* transition: all 1s ease !important; */
 }
 
 .nav-link {
@@ -65,7 +63,6 @@
 }
 .collapse {
     display: none;
-    /* transition: all 0.3s ease !important; */
 }
 
 .nav-item.has-treeview > .nav-link {
@@ -74,28 +71,25 @@
 
 .fas.fa-angle-left, .fas.fa-angle-down {
     transform: rotate(0deg) !important;
-
+    transition: all 0.3s ease !important;
 }
 
 .fas.fa-angle-left {
     transform: rotate(0deg);
-    /* transition: all 3s ease !important; */
 }
 
 .fas.fa-angle-down {
     transform: rotate(0deg);
-    /* transition: all 3s ease !important; */
 }
 
 .collapse + .nav-item {
-    padding-left: 0; 
+    padding-left: 0;
 }
 
 .form-control-sidebar {
     background-color: #343a40;
     color: white !important;
     padding: 8px;
-
 }
 
 .input-group-append{
@@ -132,3 +126,77 @@
     margin-bottom: 10px !important;
 }
 
+
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+    background-color: #fff;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+}
+
+.main-sidebar {
+    position: fixed;
+    top: 50px; /* Adjust to ensure it starts below the navbar */
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 50px);
+    background-color: #343a40;
+    overflow-y: auto;
+    transition: width 0.3s ease-in-out;
+}
+
+/* .content-wrapper {
+    margin-left: 250px;
+    padding-top: 60px; 
+} */
+
+.navbar-nav .nav-link {
+    color: #333;
+    font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff;
+}
+
+.navbar-nav .fa-bars {
+    font-size: 1.2rem;
+}
+
+.main-sidebar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.main-sidebar {
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+    overflow-y: auto;
+}
+
+.content-wrapper::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.content-wrapper {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overflow-y: auto;
+}
+
+/* .menu-colsed {
+    max-height: 0 !important;
+    overflow: hidden !important;
+    transition: max-height 0.5s ease-in !important;
+}
+
+.menu-open {
+    max-height: 500px !important; 
+    overflow: hidden !important;
+    transition: max-height 0.5s ease-out !important;
+} */

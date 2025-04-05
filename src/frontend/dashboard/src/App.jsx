@@ -25,7 +25,7 @@ function App() {
               <Route path="roles" element={<Role />} />
               <Route path="menu" element={<MenuManagement />} />
               <Route path="submenu" element={<SubMenu />} />
-              <Route path="/roleselection" element={<RoleSelection />} />
+              <Route path="roleselection" element={<RoleSelection />} />
               <Route path="/permissions" element={<RolePermission />} />
               <Route path="user" element={<User />} />
               <Route path="/edituser" element={<EditUser />} />

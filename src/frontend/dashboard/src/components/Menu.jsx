@@ -4,6 +4,7 @@ import "datatables.net-bs5";
 import $ from "jquery";
 import '../css/Menu.css'
 import showToast from "../helper/Toast";
+
 const MenuManagement = () => {
     const [menu, setMenu] = useState([]);
     const [error, setError] = useState('');
@@ -233,7 +234,6 @@ const MenuManagement = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>

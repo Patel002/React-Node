@@ -25,11 +25,12 @@ const LoginPage = () => {
                         return;
                     }
                 } catch (error) {
+                    showToast("error",error.response.data.message);
                     console.log(`Login failed at ${apiUrl}, trying next...`, error.response.data);
                 }
             } 
         } catch (error) {
-           setError("Super Admin login failed, trying again...",error.response);
+           setError("Login failed, trying again...",error.response);
             showToast("error",error.response.data.message); 
         }
     };    
@@ -101,7 +102,7 @@ const LoginPage = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <button type="submit" className="btn btn-primary btn-block">
-                                     Login In
+                                     Login
                                     </button>
                                 </div>
                             </div>

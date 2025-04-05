@@ -4,6 +4,7 @@ import '../css/AdminLayout.css';
 import logo from '../assets/logo.bmp';
 import SidebarMenu from './Sidebar';
 import axios from "axios";
+import 'admin-lte';
 
 const AdminLayout = () => {
     const navigate = useNavigate();
@@ -14,7 +15,6 @@ const AdminLayout = () => {
     const role = sessionStorage.getItem("role"); 
     const roleId = sessionStorage.getItem("roleId");
 
-    
     useEffect(() => {
         const token = sessionStorage.getItem("token");
         if (!token) {
@@ -30,7 +30,7 @@ const AdminLayout = () => {
                         response = await axios.get(`http://localhost:7171/api/menu/list-menu`);
                         
                     } else {
-                        response = await axios.get(`http://localhost:7171/api/permission/list?roleId=${roleId}`);
+                        response = await axios.get(`http://localhost:7171/api/permission/list?roleId=${roleId}`);   
                     }
 
                     const data = response.data.data;
@@ -40,7 +40,6 @@ const AdminLayout = () => {
                     let menuTree = [];
                     let submenuMap = new Map();
         
-
             data.forEach(menu => {
                 const menuItem = { 
                     ...menu, 
@@ -72,7 +71,6 @@ const AdminLayout = () => {
                 return menu.submenus.length > 0 || menu.url;
             });
 
-        
                     console.log("Menu tree:", menuTree);
                     setMenuStructure(menuTree);
                 } catch (error) {
@@ -81,22 +79,29 @@ const AdminLayout = () => {
             };
 
             fetchMenu();
+
+            const interval = setInterval(() => {
+                fetchMenu();
+            },10000);
+
+            return () => clearInterval(interval);
         }, [role, roleId]);
+        
+        useEffect(() => {
+            if (window.AdminLTE) {
+              window.AdminLTE.init();
+            }
+          }, [setIsCollapsed]);
+          
+        console.log("LTE",window.$.AdminLTE);
 
-
-    useEffect(() => {
-        if (window.$.AdminLTE) {
-            window.$.AdminLTE.init();
-        }   
-    }, []);
-
-    const toggleCollapse = () => {
-        setIsCollapsed(!isCollapsed);
-    };
+        const toggleCollapse = (event) => {
+            event.preventDefault(); 
+            setIsCollapsed(prev => !prev);
+        };
 
     return (
         <div className="wrapper">
-          
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
             <a href="/dashboard" className="brand-link">
                     <img src ={logo} alt="Admin Logo" className="brand-image img-circle elevation-2" style={{
@@ -123,20 +128,21 @@ const AdminLayout = () => {
 
                     <nav className="mt-1">
                         <ul className="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu">
-                        {/* {role === "super admin" && ( */}
+                        {role === "super admin" && (
                             <li className="nav-item has-treeview">
                                 <p className="nav-header mb-0 font-weight-bold
                                 ">Access Control
                                 </p>
-                                <a href="#" className="nav-link d-flex align-items-center" onClick={toggleCollapse}>
+                                <a href="" className="nav-link d-flex align-items-center" onClick={toggleCollapse}>
+
                                     <i className="nav-icon fas fa-user-shield "></i>
                                     <p className="ml-2 mb-0">
                                         Super Admin
                                         <i className={`right fas ${isCollapsed ? "fa-angle-down" : "fa-angle-left"}`}></i>
                                     </p>
                                 </a>
-                                <ul className={`nav nav-treeview ${isCollapsed ? "d-block" : "d-none"}`}>
-                                   
+                                <ul className={`nav nav-treeview ${isCollapsed ? "menu-open" : ""}`}>
+
                                     <li className="nav-item">
                                         <Link to="/user" className={`nav-link d-flex align-items-center ${location.pathname === "/user" ? "active" : ""}`}>
                                             <i className="nav-icon fas fa-user-plus"></i>
@@ -168,10 +174,10 @@ const AdminLayout = () => {
                                         </Link>
                                     </li>
                                 </ul>
+                                <div className="user-panel d-flex align-items-center mt-2">
+                                </div>
                             </li>
-                        {/* )} */}
-                            <div className="user-panel d-flex align-items-center mt-2">
-                            </div>
+                         )} 
                             <ul className="nav nav-pills nav-sidebar flex-column">
                     </ul>
                     <div>

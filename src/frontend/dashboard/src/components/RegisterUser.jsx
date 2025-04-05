@@ -96,7 +96,7 @@ const RegisterUser = () => {
             upperCase: /[A-Z]/.test(password),
             lowerCase: /[a-z]/.test(password),
             number: /[0-9]/.test(password),
-            specialChar: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{6,}$/.test(password)
+            specialChar: /[!@#$%^&*()\-_=+]/.test(password)  
         })? "Invalid Password": "Valid Password";
     };
 
@@ -172,7 +172,8 @@ const RegisterUser = () => {
             </div>
 
             <div className="content">
-                <div className ="container-fluid">
+                <div className="card mt-2">
+                <div className ="container-fluid mt-3">
                 <div className="row justify-content-center">
                 {/* <div className="card-header">
                             <h3 className="card-title">Register User</h3>
@@ -272,11 +273,12 @@ const RegisterUser = () => {
                                 </div>
                             </div>
 
-                            <div className="card-footer text-right">
+                            <div className=" mb-3 text-right">
                                 <button type="submit" className="btn btn-primary">Register</button>
                             </div>
                         </form>
                     </div>
+                </div>
                 </div>
         </div>
      </div>

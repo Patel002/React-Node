@@ -23,7 +23,6 @@ const User = () => {
         }
     }, [user]);
 
-
    const fetchUsers = async() => {
     try {
         
@@ -51,12 +50,12 @@ const User = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>User</h1>
+                            <h2>User</h2>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><a href="/dashboard "><i className="fa-solid fa-house" /></a></li>
-                                <li className="breadcrumb-item active">User </li>
+                                <li className="breadcrumb-item active">User</li>
                             </ol>
                         </div>
                     </div>
