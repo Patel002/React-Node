@@ -71,11 +71,13 @@ const SidebarMenu = ({ menuStructure, role }) => {
                         <>
                             <a href="" className="nav-link" style = {{cursor:"pointer", padding:"8px",marginLeft:"9px"}} onClick={() => toggleCollapse(menu.id)}>
                                 <i className={`nav-icon ${menu.icon || "fas fa-circle"}`} style={{ marginRight: "10px" }} />
+            
                                 <p>
                                     {menu.menuName}
                                 </p>
                             </a>
                             <ul className={`nav nav-treeview transition ${collapsedMenus[menu.id] ? "menu-open" : "menu-close"}`}style={{paddingLeft:'20px', marginBottom:'-3px'}}>
+                            
                                 {renderMenuItems(menu.submenus)}
                             </ul>
                         </>

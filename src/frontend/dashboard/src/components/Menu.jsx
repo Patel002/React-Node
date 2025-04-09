@@ -141,10 +141,10 @@ const MenuManagement = () => {
             <section className="content-header">
                 <div className="container-fluid">
                     <div className="row mb-2">
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <h1>Menu</h1>
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><a href="#"><i className="fa-solid fa-house" /></a></li>
                                 <li className="breadcrumb-item active">Menu </li>
@@ -159,7 +159,7 @@ const MenuManagement = () => {
                     <div className="row">
                         <div className="col-md-5">
                             <div className="card">
-                                <div className="card-header bg-white text-black mt-2">
+                                <div className="card-header bg-white text-black">
                                     <h3 className="card-title"> <i className="fa-solid fa-plus mr-2" />{editData ? "Update Menu" : "Add Menu"}</h3>
                                 </div>
                                 <div className="card-body">
@@ -168,10 +168,12 @@ const MenuManagement = () => {
                                             <input type="text" name="menuName" value={formData.menuName} onChange={handleChange} placeholder="Menu Name" className="form-control" required />
                                         </div>
                                         <div className="mb-3">
-                                            <input type="text" name="url" value={formData.url} onChange={handleChange} placeholder="URL" className="form-control" required />
+                                            <input type="text" name="url" value={formData.url} onChange={handleChange} placeholder="URL" className="form-control"
+                                            autoComplete="off" required />
                                         </div>
                                         <div className="mb-3">
-                                            <input type="text" name="icon" value={formData.icon} onChange={handleChange} placeholder="Icon" className="form-control" />
+                                            <input type="text" name="icon" value={formData.icon} onChange={handleChange} placeholder="Icon" className="form-control"
+                                            autoComplete="off" />
                                         </div>
                                         <div className="mb-3">
                                             <select name="parent" value={formData.parent} onChange={handleChange} className="form-control">
@@ -200,7 +202,7 @@ const MenuManagement = () => {
 
                         <div className="col-md-7">
                             <div className="card">
-                                <div className="card-header bg-white text-black mt-2">
+                                <div className="card-header bg-white text-black">
                                     <h3 className="card-title">
                                         <i className="fa-solid fa-list-check mr-2" />
                                         Menus List</h3>

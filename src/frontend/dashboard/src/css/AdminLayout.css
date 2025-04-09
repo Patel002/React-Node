@@ -54,8 +54,9 @@
 }
 
 .nav-sidebar .nav-link.active {
-    background-color: #116bcb76 ;
-    color: rgb(1, 166, 255);
+    font-weight: 700;
+    background-color: #7d4bcbc6 !important; ;
+    color: rgb(255, 255, 255) !important;
 }
 
 .nav-icon.fas.fa-user-shield {
@@ -114,7 +115,7 @@
 }
 
 .btn-sidebar:hover {
-    background-color: #343a40!important;
+    background-color: #5f6468!important;
     color: white !important;
 }
 
@@ -140,7 +141,7 @@
 
 .main-sidebar {
     position: fixed;
-    top: 50px; /* Adjust to ensure it starts below the navbar */
+    top: 50px; 
     left: 0;
     width: 250px;
     height: calc(100vh - 50px);
@@ -200,3 +201,75 @@
     overflow: hidden !important;
     transition: max-height 0.5s ease-out !important;
 } */
+
+.main-header.navbar {
+    background-color: #f8f9fa !important;
+    box-shadow: none !important;
+    position: fixed !important;
+    width : calc(100% - 250px) !important;
+    border-bottom: 1px solid #d5d7d685 !important;
+    padding: 0.5rem 1rem !important;
+  } 
+
+  body.sidebar-collapse .content-wrapper,
+  body.sidebar-collapse .main-header {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  body.dark-mode .main-header {
+    color: #ecf0f1 !important;
+    background-color: #2a2d30 !important;
+  }
+
+  body.dark-mode .main-header i,
+  body.dark-mode .main-header .nav-link {
+    color: #ecf0f1 !important;
+  }
+  
+  body.dark-mode .content-wrapper {
+    background-color: #2a302f;
+    color: #ecf0f1;
+  }
+
+  body.dark-mode .card-header {
+    background-color: #46484877 !important;
+    color: #e9e9e9 !important;
+  }
+
+  body.dark-mode table {
+    background-color: #2a2d30;
+    color: #ecf0f1;
+  }
+  
+  body.dark-mode table th,
+  body.dark-mode table td {
+    color: #ffffff;
+    background-color: #46474877;
+    border-color: #434254 !important;
+  }
+  
+  body.dark-mode table tr {
+    border-color: #434254 ;
+    color: #ecf0f1;
+  }
+  
+  body.dark-mode input,
+  body.dark-mode select,
+  body.dark-mode textarea {
+    background-color: #34495e;
+    color: #ecf0f1;
+    border: 1px solid #434254 !important;
+  }
+  
+  body.dark-mode input::placeholder,
+  body.dark-mode textarea::placeholder {
+    color: #bdc3c7;
+  }
+  
+  /* Labels */
+  body.dark-mode label {
+    color: #ecf0f1;
+  }
+  
+

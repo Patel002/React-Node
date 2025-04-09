@@ -142,10 +142,10 @@ const SubMenu = () => {
              <section className="content-header">
                 <div className="container-fluid">
                     <div className="row mb-2">
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <h1>Sub Menu</h1>
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><a href="/dashboard"><i className="fa-solid fa-house" /></a></li>
                                 <li className="breadcrumb-item active">Sub Menu </li>
@@ -160,7 +160,7 @@ const SubMenu = () => {
                 <div className="row">
                     <div className="col-md-4">
                         <div className="card">
-                        <div className="card-header bg-white text-black mt-2">
+                        <div className="card-header bg-white text-black">
                         <h3 className="card-title"> <i className ="fa-solid fa-plus mr-2" />{editData ? "Update Sub Menu" : "Add Sub Menu"}</h3>
                         </div>
                         
@@ -191,6 +191,7 @@ const SubMenu = () => {
                                     placeholder="SubMenu Name"
                                     className="form-control"
                                     required
+                                    autoComplete="off"
                                 />
                             </div>
                             <div className="mb-3">
@@ -201,6 +202,7 @@ const SubMenu = () => {
                                     onChange={handleChange}
                                     placeholder="URL"
                                     className="form-control"
+                                    autoComplete="off"
                                     required
                                 />
                             </div>
@@ -224,7 +226,7 @@ const SubMenu = () => {
 
                     <div className="col-md-8">
                     <div className="card">
-                    <div className="card-header bg-white text-black mt-2">
+                    <div className="card-header bg-white text-black ">
                         <h3 className="card-title">
                         <i className="fa-solid fa-list-check mr-2" />
                             Sub Menus List</h3>

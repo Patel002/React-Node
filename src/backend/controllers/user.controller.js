@@ -46,7 +46,7 @@ const getAllUserData = async (req, res) => {
             });
         }
 
-        console.log('User created successfully : ', user);
+        // console.log('User created successfully : ', user);
         return res.status(200).json({
             message: "User created successfully",
             userData: user
@@ -163,7 +163,7 @@ const loginUser = async(req, res) => {
             ]
         })
 
-        console.log("USER",user);
+        // console.log("USER",user);
 
         if(!user){
             return res.status(404).json({
@@ -173,10 +173,10 @@ const loginUser = async(req, res) => {
         }
 
         const roleId = user.userRole ? user.userRole.id : null; 
-        // console.log("roleId",roleId);
+        console.log("roleId",roleId);
 
         const isPasswordValid = await user.validatePassword(password);
-        console.log(isPasswordValid, password, user.password);
+        // console.log(isPasswordValid, password, user.password);
 
         if(!isPasswordValid){
             return res.status(400).json({

@@ -104,10 +104,10 @@ const Role = () => {
             <section className="content-header">
                 <div className="container-fluid">
                     <div className="row mb-2">
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <h1>User Roles</h1>
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item">
                                     <a href="/dashboard">

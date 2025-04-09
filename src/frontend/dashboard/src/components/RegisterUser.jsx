@@ -164,8 +164,8 @@ const RegisterUser = () => {
             <div className="content-header">
                 <div className="container-fluid">
                     <div className="row mb-2">
-                        <div className="col-sm-6">
-                            <h3 className="m-0"><i className="fa-solid fa-user" /> User Registration</h3>
+                        <div className="col-sm-6 mt-5">
+                            <h4 className="m-0"><i className="fa-solid fa-user" /> User Registration</h4>
                         </div>
                     </div>
                 </div>

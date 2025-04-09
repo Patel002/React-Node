@@ -1,12 +1,11 @@
 .content-wrapper {
     min-height: 100vh !important;
-    min-width: 83.7vw !important;
+    min-width: calc(100% - 250px) !important;
 }
 .card {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
     border-radius: 8px !important;
 }
-
 
 .alert {
     padding: 5px;
@@ -24,3 +23,12 @@
 .input-group select {
     max-width: 30%;
 }
+
+ 
+  @media (max-width: 768px) {
+    .content-wrapper {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+  }
+  

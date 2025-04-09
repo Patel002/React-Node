@@ -88,20 +88,74 @@ const AdminLayout = () => {
         }, [role, roleId]);
         
         useEffect(() => {
-            if (window.AdminLTE) {
-              window.AdminLTE.init();
+            if (window.$ && window.$.fn && window.$.fn.Layout) {
+              window.$('[data-widget="pushmenu"]').PushMenu();
+              console.log("AdminLTE layout fully available.");
+            } else {
+              console.error("AdminLTE layout not fully available.");
             }
-          }, [setIsCollapsed]);
+          }, []);
           
-        console.log("LTE",window.$.AdminLTE);
+        console.log("LTE",window.$.fn.Layout);
 
         const toggleCollapse = (event) => {
             event.preventDefault(); 
             setIsCollapsed(prev => !prev);
         };
 
+        const toggleDarkMode = () => {
+            document.body.classList.toggle("dark-mode");
+            const isDark = document.body.classList.contains("dark-mode");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+          };
+          
+
     return (
-        <div className="wrapper">
+        <div className="wrapper"> 
+        <nav className="main-header navbar navbar-expand navbar-white navbar-light">
+  <ul className="navbar-nav">
+    <li className="nav-item">
+      <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars"></i></a>
+    </li>
+    <li className="nav-item d-none d-sm-inline-block">
+      <a href="/dashboard" className="nav-link">Home</a>
+    </li>
+    <li className="nav-item d-none d-sm-inline-block">
+      <a href="#" className="nav-link">Contact</a>
+    </li>
+    <li className="nav-item dropdown">
+      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Help
+      </a>
+      <div className="dropdown-menu" aria-labelledby="navbarDropdown2">
+        <a className="dropdown-item" href="#">FAQ</a>
+        <a className="dropdown-item" href="#">Support</a>
+        <div className="dropdown-divider"></div>
+        <a className="dropdown-item" href="#">Contact</a>
+      </div>
+    </li>
+  </ul>
+  <ul className="navbar-nav ml-auto">
+    <li className="nav-item">
+        <a className="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i className="fas fa-expand-arrows-alt"></i>
+        </a>
+    </li>
+    <li className="nav-item dropdown">
+    <a className="nav-link" data-toggle="dropdown" href="#">
+      <i className="fas fa-user-circle"></i>
+    </a>
+    <div className="dropdown-menu dropdown-menu-right">
+      <a href="/editUser" className="dropdown-item">Profile</a>
+    </div>
+    </li>
+    <li className="nav-item">
+  <a href="#" onClick={toggleDarkMode} role="button" className="nav-link">
+   <i className="fa-regular fa-moon"></i>
+  </a>
+</li>
+  </ul>
+</nav>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
             <a href="/dashboard" className="brand-link">
                     <img src ={logo} alt="Admin Logo" className="brand-image img-circle elevation-2" style={{
@@ -168,11 +222,20 @@ const AdminLayout = () => {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to="/roleselection" className={`nav-link d-flex align-items-center ${location.pathname === "/roleselection  " ? "active" : ""}`}>
-                                            <i className="nav-icon fa-solid fa-shield"></i>
-                                            <p className="ml-2 mb-0">Role Permission</p>
-                                        </Link>
-                                    </li>
+                                <Link
+                                    to="/roleselection"
+                                    className={`nav-link d-flex align-items-center ${location.pathname === "/roleselection" ? "active" : ""}`}
+                                    style={{
+                                    backgroundColor: location.pathname === "/roleselection" ? "#7d4bcbc6" : "transparent",
+                                    fontWeight: location.pathname === "/roleselection" ? 700 : "normal",
+                                    color: location.pathname === "/roleselection" ? "white" : "",
+                                    }}
+                                >
+                                    <i className="nav-icon fa-solid fa-shield"></i>
+                                    <p className="ml-2 mb-0">Role Permission</p>
+                                </Link>
+                                </li>
+
                                 </ul>
                                 <div className="user-panel d-flex align-items-center mt-2">
                                 </div>

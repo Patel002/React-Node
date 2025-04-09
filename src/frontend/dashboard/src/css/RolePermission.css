@@ -1,3 +1,12 @@
 .content-wrapper{
     position: fixed !important;
 }
+
+input[type="time"].form-control {
+  background-color: #28282cd7; 
+  color: #ffffff;
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 5px 10px;
+  height: 38px;
+}

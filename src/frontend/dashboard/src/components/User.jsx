@@ -49,10 +49,10 @@ const User = () => {
                        <section className="content-header">
                 <div className="container-fluid">
                     <div className="row mb-2">
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <h2>User</h2>
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><a href="/dashboard "><i className="fa-solid fa-house" /></a></li>
                                 <li className="breadcrumb-item active">User</li>
@@ -65,10 +65,10 @@ const User = () => {
             <section className="content">
              <div className="card">
                 <div className="card-header">
-                    <h5>User List</h5>
+                    <h4>User List</h4>
                 </div>
                 <div className="container-fluid">
-                <button className="btn btn-danger ml-3 text-center " onClick={() => navigate("/Register")}>Add User</button>
+                <button className="btn btn-danger ml-3 mt-2 text-center " onClick={() => navigate("/Register")}>Add User</button>
             <div className="content">
                 <table ref={tableRef} className="table table-bordered table-striped table-compact">
                     <thead>

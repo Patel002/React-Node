@@ -53,10 +53,10 @@ const RoleSelection = () => {
         <section className="content-header">
                 <div className="container-fluid">
                     <div className="row mb-2">
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <h1>User Roles</h1>
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-sm-6 mt-5">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><a href="/dashboard">
                                 <i className="fa-solid fa-house" />
@@ -72,8 +72,9 @@ const RoleSelection = () => {
                 <div className="container-fluid">
                     <div className="card">
                     <div className="card-header bg-white text-black ">
-                                   <p className="mb-2 font-weight-bolder">Set User Role Permission
-                                   </p>
+                    <h5 className="mt-1 mb-1">
+                        Role Permission
+                    </h5>
                                 </div>
                         <div className="card-body">
                             <div className="form-group">

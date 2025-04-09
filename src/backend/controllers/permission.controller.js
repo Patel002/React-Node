@@ -349,7 +349,8 @@ const getAllMenuPermissions = async (req, res) => {
                         model: SubMenu,
                         as: "SubMenu",
                         attributes: ["id", "subMenuName", "mainMenu", "url"],
-                        required: false
+                        required: false,
+                        read: true
                     }
                 ],
                 raw: true,

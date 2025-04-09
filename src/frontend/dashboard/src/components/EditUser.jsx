@@ -170,7 +170,7 @@ const EditUser = () => {
 
     return (
         <div className="content-wrapper">
-            <div className="content-header">
+            <div className="content-header mt-4">
                 <h3>Edit User</h3>
             </div>
             <div className="card">
