@@ -32,5 +32,4 @@ const isSuperAdmin = (req, res, next) => {
 };
 
 
-
 export { isSuperAdmin };

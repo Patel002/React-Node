@@ -43,7 +43,9 @@ const LoginPage = () => {
 
         sessionStorage.setItem("role", decodedToken.role);
         sessionStorage.setItem("roleId", decodedToken.roleId);
+        sessionStorage.setItem("id", decodedToken.id);
         console.log("ROLE*ID",decodedToken.roleId);
+        console.log("ID",decodedToken.id);
 
         showToast("success", `${decodedToken.role} logged in successfully`);
 

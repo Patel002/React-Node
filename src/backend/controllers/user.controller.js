@@ -108,7 +108,6 @@ const updateUser = async ( req, res) => {
     }
 };
 
-
 const updatePassword = async (req,res) => {
 const {newPassword, confirmPassword} = req.body;
 const {id} = req.params;
@@ -129,7 +128,6 @@ try {
 
     user.password = newPassword
     const passwordUpdated = await user.save(); 
-
 
     return res.status(200).json({ success: true, message: "Password updated successfully", passwordUpdated, confirmPassword });
 
@@ -173,7 +171,7 @@ const loginUser = async(req, res) => {
         }
 
         const roleId = user.userRole ? user.userRole.id : null; 
-        console.log("roleId",roleId);
+        // console.log("roleId",roleId);
 
         const isPasswordValid = await user.validatePassword(password);
         // console.log(isPasswordValid, password, user.password);
@@ -185,6 +183,7 @@ const loginUser = async(req, res) => {
             })
         }
         const token = jwt.sign({
+            id: user.id,
             userName,
             password,
             role: user.role,
@@ -227,11 +226,47 @@ const deleteUser = async (req, res)=> {
     }
 }
 
+const userProfile = async (req, res) => {
+    try {
+        
+        const {id} = req.params;
+        const user =  await User.findByPk(id, {
+            include: [
+                {
+                    model: Role,
+                    as: "userRole",
+                    attributes: ["id", "roleName"]
+                }
+            ]
+        });
+        if(!user){
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            })
+        }
+
+        return res.status(200).json({
+            message: "User profile fetched successfully",
+            user
+        })
+
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Error while getting user profile",
+            error: error.message
+        })    
+    }
+}
+
 export {
     getAllUserData,
     getUsers,
     updateUser,
     updatePassword,
     loginUser,
-    deleteUser
+    deleteUser,
+    userProfile
 }

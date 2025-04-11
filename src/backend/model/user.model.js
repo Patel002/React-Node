@@ -62,8 +62,8 @@ User.beforeSave(async (user) => {
 })
 
 User.prototype.validatePassword = async function(password) {
-    console.log("Input Password:", password);
-    console.log("Stored Hashed Password:", this.password);
+    // console.log("Input Password:", password);
+    // console.log("Stored Hashed Password:", this.password);
     return await bcrypt.compare(password, this.password);
 }
 

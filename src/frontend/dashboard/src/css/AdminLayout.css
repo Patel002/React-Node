@@ -54,9 +54,9 @@
 }
 
 .nav-sidebar .nav-link.active {
-    font-weight: 700;
-    background-color: #7d4bcbc6 !important; ;
-    color: rgb(255, 255, 255) !important;
+    font-weight: 650;
+    background-color: #ffffff !important; ;
+    color: rgb(0, 0, 0) !important;
 }
 
 .nav-icon.fas.fa-user-shield {
@@ -229,7 +229,7 @@
   
   body.dark-mode .content-wrapper {
     background-color: #2a302f;
-    color: #ecf0f1;
+    color: #ecf0f1; 
   }
 
   body.dark-mode .card-header {
@@ -266,10 +266,16 @@
   body.dark-mode textarea::placeholder {
     color: #bdc3c7;
   }
-  
-  /* Labels */
+
   body.dark-mode label {
     color: #ecf0f1;
   }
   
+  body.dark-mode .btn-primary {
+    background-color: #16e0e0 !important;
+    color: #ffffff;
+  }
 
+  body.dark-mode .btn-primary:hover {
+    background-color: #088b8b !important;
+  }

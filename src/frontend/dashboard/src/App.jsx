@@ -12,6 +12,7 @@ import User from "./components/User";
 import EditUser from "./components/EditUser";
 import ProtectedRoute from  "./components/ProtectedRoutes";
 import UnauthorizedPage from "./components/UnAuthorizedPage";
+import UserProfile from "./components/UserProfile";
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
           </Route>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="unauthorized" element={<UnauthorizedPage />} />
+            <Route path="/user-profile" element={<UserProfile />} />
           </Route>
       </Routes>
   </Router>

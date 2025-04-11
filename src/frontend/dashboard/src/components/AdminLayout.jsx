@@ -21,6 +21,16 @@ const AdminLayout = () => {
             navigate("/login");
         }
     }, [navigate]);
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+          document.body.classList.add("dark-mode");
+        } else {
+          document.body.classList.remove("dark-mode");
+        }
+      }, []);
+      
     
         useEffect(() => {
             const fetchMenu = async () => {
@@ -146,7 +156,7 @@ const AdminLayout = () => {
       <i className="fas fa-user-circle"></i>
     </a>
     <div className="dropdown-menu dropdown-menu-right">
-      <a href="/editUser" className="dropdown-item">Profile</a>
+      <a href="/user-profile" className="dropdown-item">Profile</a>
     </div>
     </li>
     <li className="nav-item">

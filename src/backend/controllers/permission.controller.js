@@ -223,38 +223,61 @@ const getAllMenuPermissions = async (req, res) => {
             attributes: ["id", "menuName","parent", "url", "icon", "active"]
         });
 
+        const formattedMenu = menuPermissions.map(menu => {
+            const uniquePermissionsMap = new Map();
+            for (const permission of menu.Permissions || []) {
+                const key = `${permission.roleId}-${permission.Role?.roleName.trim()}`;
+                if (!uniquePermissionsMap.has(key)) {
+                    uniquePermissionsMap.set(key, {
+                        roleId: permission.roleId,
+                        roleName: permission.Role ? permission.Role.roleName.trim() : null,
+                        read: permission.read,
+                        write: permission.write,
+                        canUpdate: permission.canUpdate,
+                        deletePermission: permission.deletePermission
+                    });
+                }
+            }
 
-        const formattedMenu = menuPermissions.map(menu => ({
-            id: menu.id,
-            menuName: menu.menuName,
-            parentName: menu.ParentMenu ? menu.ParentMenu.menuName : null,  
-            url: menu.url,
-            icon: menu.icon,
-            active: menu.active,
-            permissions: (menu.Permissions || []).map(permission => ({
-                roleId: permission.roleId,
-                roleName: permission.Role ? permission.Role.roleName : null,
-                read: permission.read,
-                write: permission.write,
-                canUpdate: permission.canUpdate,
-                deletePermission: permission.deletePermission
-            })),
-            SubMenus: (menu.SubMenus || []).map(subMenu => ({
-                id: subMenu.id,
-                menuId: menu.id,
-                menuName: subMenu.subMenuName,
-                parentName: subMenu.mainMenu,
-                permissions: (subMenu.Permissions || []).map(permission => ({
-                    roleId: permission.roleId,
-                    roleName: permission.Role ? permission.Role.roleName : null,
-                    read: permission.read,
-                    write: permission.write,
-                    canUpdate: permission.canUpdate,
-                    deletePermission: permission.deletePermission
-                }))
-            }))
-        }));
+            const formattedSubMenus = (menu.SubMenus || []).map(subMenu => {
+                const subPermissionsMap = new Map();
+                for (const permission of subMenu.Permissions || []) {
+                    const key = `${permission.roleId}-${permission.Role?.roleName.trim()}`;
+                    if (!subPermissionsMap.has(key)) {
+                        subPermissionsMap.set(key, {
+                            roleId: permission.roleId,
+                            roleName: permission.Role ? permission.Role.roleName.trim() : null,
+                            read: permission.read,
+                            write: permission.write,
+                            canUpdate: permission.canUpdate,
+                            deletePermission: permission.deletePermission
+                        });
+                    }
+                }
 
+                return {
+                    id: subMenu.id,
+                    menuId: menu.id,
+                    menuName: subMenu.subMenuName,
+                    parentName: subMenu.mainMenu,
+                    permissions: Array.from(subPermissionsMap.values())
+                };
+            });
+
+            return {
+                id: menu.id,
+                menuName: menu.menuName,
+                parentName: menu.ParentMenu ? menu.ParentMenu.menuName : null,
+                url: menu.url,
+                icon: menu.icon,
+                active: menu.active,
+                permissions: Array.from(uniquePermissionsMap.values()),
+                SubMenus: formattedSubMenus
+            };
+        });
+
+
+        console.log("formattedMenu",formattedMenu)
         return res.status(200).json({ success: true, data: formattedMenu });
 
     } catch (error) {

@@ -248,6 +248,30 @@ const RolePermission = () => {
         return Array.from(parents);
     };
 
+    const handleGlobalPermissionToggle = (permissionType, isChecked) => {
+        const updatedPermissions = { ...rolePermissions };
+
+        menuPermissions.forEach((menu) => {
+            const menuKey = getPermissionKey(menu);
+            updatedPermissions[menuKey] = {
+              ...updatedPermissions[menuKey],
+              [permissionType]: isChecked
+            };
+        
+            menu.subMenus.forEach((sub) => {
+              const subKey = getPermissionKey(sub, true);
+              updatedPermissions[subKey] = {
+                ...updatedPermissions[subKey],
+                [permissionType]: isChecked
+              };
+            });
+          });
+
+          
+  setRolePermissions(updatedPermissions);
+
+        }
+
     return (
         <div className="content-wrapper">
             <section className="content-header">
@@ -316,10 +340,35 @@ const RolePermission = () => {
                         <tr>
                         <th>Parent Name</th>
                         <th>Menu</th>
-                        <th>Read</th>
-                        <th>Write</th>
-                        <th>Update</th>
-                        <th>Delete</th>
+                        <th>
+                        <input
+                        type="checkbox"
+                        onChange={(e) => handleGlobalPermissionToggle("read", e.target.checked)}
+                        /> Read
+                        </th>
+
+                        <th>
+                        <input
+                        type="checkbox"
+                        onChange={(e) => handleGlobalPermissionToggle("write", e.target.checked)}
+                        /> Write
+                        </th>
+
+                        <th>
+                        <input
+                        type="checkbox"
+                        onChange={(e) => handleGlobalPermissionToggle("canUpdate", e.target.checked)}
+                        /> 
+                        Update
+                        </th>   
+
+                        <th>
+                        <input
+                        type="checkbox"
+                        onChange={(e) => handleGlobalPermissionToggle("deletePermission", e.target.checked)}
+                        />
+                        Delete
+                        </th>
                         <th>Start Time</th>
                         <th>End Time</th>
                         </tr>
