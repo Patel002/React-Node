@@ -128,7 +128,7 @@ const AdminLayout = () => {
       <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars"></i></a>
     </li>
     <li className="nav-item d-none d-sm-inline-block">
-      <a href="/dashboard" className="nav-link">Home</a>
+      <Link to="/dashboard" className="nav-link">Home</Link>
     </li>
     <li className="nav-item d-none d-sm-inline-block">
       <a href="#" className="nav-link">Contact</a>
@@ -156,7 +156,7 @@ const AdminLayout = () => {
       <i className="fas fa-user-circle"></i>
     </a>
     <div className="dropdown-menu dropdown-menu-right">
-      <a href="/user-profile" className="dropdown-item">Profile</a>
+      <Link to="/user-profile" className="dropdown-item">Profile</Link>
     </div>
     </li>
     <li className="nav-item">
@@ -167,7 +167,7 @@ const AdminLayout = () => {
   </ul>
 </nav>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
-            <a href="/dashboard" className="brand-link">
+            <Link to="/dashboard" className="brand-link">
                     <img src ={logo} alt="Admin Logo" className="brand-image img-circle elevation-2" style={{
                          opacity: '0.8',
                          backgroundColor: 'white',
@@ -177,7 +177,7 @@ const AdminLayout = () => {
                           }} 
                           />
                     <span className="font-weight-bold text-decoration-none">{role}</span>
-                </a>
+                </Link>
                 <div className="sidebar">
                 <div className="form-inline mt-3">
                         <div className="input-group" data-widget="sidebar-search">

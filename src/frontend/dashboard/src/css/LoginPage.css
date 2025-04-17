@@ -65,3 +65,9 @@
     background-color: rgb(206, 207, 204);
     border-radius: 7px;
 }
+.custom-swal-toast {
+    border-radius: 10px !important;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4) !important;
+    font-size: 14px !important;
+  }
+  

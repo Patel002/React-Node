@@ -14,7 +14,14 @@ const createMenu = async (req, res) => {
             return res.status(400).json({ message: "Menu already exists" });
         }
 
-        const menu = await Menu.create({ menuName, url, icon, parent: parent ? parent : null, active, sequence });
+        const menu = await Menu.create({ 
+            menuName, 
+            url, 
+            icon, 
+            parent: parent ? parent : null, 
+            active, 
+            sequence
+         });
 
         return res.status(201).json({ message: "Menu created successfully", menu });
 
@@ -27,7 +34,7 @@ const createMenu = async (req, res) => {
 
 const getMenuList = async(req, res) => {
     try {
-
+        
         const menu = await Menu.findAll({
             order: [['sequence', 'ASC']]
         });

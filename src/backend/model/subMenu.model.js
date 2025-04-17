@@ -22,6 +22,6 @@ const SubMenu = sequelize.define('submenu',{
     }
 })
 
-// SubMenu.sync({alter: true});
+// SubMenu.sync({force: true});
 
 export { SubMenu };

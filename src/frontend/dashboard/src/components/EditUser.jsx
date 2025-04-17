@@ -2,6 +2,19 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import showToast from "../helper/Toast";
+
+
+const countryCodes = [
+    { code: "+1",  country: "USA" },
+    { code: "+91", country: "India" },
+    { code: "+44", country: "UK" },
+    { code: "+61", country: "Australia" },
+    { code: "+81", country: "Japan" },
+    { code: "+49", country: "Germany" },
+    { code: "+33", country: "France" },
+    { code: "+86", country: "China" },
+  ];
+  
 const EditUser = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -75,31 +88,26 @@ const EditUser = () => {
                 }
             }
 
-    useEffect(() => {
-        if (editUser) {
+            useEffect(() => {
+                if (editUser) {
+                    let fullPhone = editUser.phone || "";
+                    let matchedCode = countryCodes.find(item => fullPhone.startsWith(item.code));
+                    let countryCode = matchedCode ? matchedCode.code : "";
+                    let phoneWithoutCode = matchedCode ? fullPhone.replace(matchedCode.code, "") : fullPhone;
             
-            let countryCode = "+91"; 
-            let phoneNumber = editUser.phone || "";
-
-            if (phoneNumber.includes("+")) {
-                const splitPhone = phoneNumber.split("");
-                if (splitPhone.length > 1) {
-                    countryCode = splitPhone[0]; 
-                    phoneNumber = splitPhone.slice(1).join(""); 
+                    setFormData({
+                        userName: editUser.userName || "",
+                        firstName: editUser.firstName || "",
+                        lastName: editUser.lastName || "",
+                        password: editUser.password || "",
+                        email: editUser.email || "",
+                        phone: phoneWithoutCode,
+                        countryCode: countryCode || "+91", 
+                        role: editUser.role || ""
+                    });
                 }
-            }
-            setFormData({
-                userName: editUser.userName || "",
-                firstName: editUser.firstName || "",
-                lastName: editUser.lastName || "",
-                password: editUser.password || "",
-                email: editUser.email || "",
-                phone: editUser.phone || "",
-                countryCode: countryCode,
-                role: editUser.role || ""
-            });
-        }
-    }, [editUser]);
+            }, [editUser]);
+            
 
     const handleChange = (e) => {
         setFormData({
@@ -110,16 +118,27 @@ const EditUser = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-       
-        if (!editUser.id) {
-            showToast ("No user selected for update");
+
+        const phoneOnly = formData.phone.replace(/\D/g, ""); 
+        if (phoneOnly.length < 10 || phoneOnly.length > 15) {
+            showToast("error", "Phone number must be between 10 to 15 digits (excluding country code)");
             return;
         }
-
+    
+        if (!editUser.id) {
+            showToast("error", "No user selected for update");
+            return;
+        }
+    
+        const updatedData = {
+            ...formData,
+            phone: `${formData.countryCode}${formData.phone}`
+        };
+    
         try {
             const response = await axios.patch(
                 `http://localhost:7171/api/user-data/update-user/${editUser.id}`,
-                formData,
+                updatedData,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -127,16 +146,16 @@ const EditUser = () => {
                     }
                 }
             );
-
-            if (response.status === 200) {
-                showToast ("success", "User updated successfully");
-            }
     
+            if (response.status === 200) {
+                showToast("success", "User updated successfully");
+            }
         } catch (error) {
             console.log(error);
-            showToast ("error",`User Update Failed: ${error.response?.data?.message || 'Unknown error'}`);
+            showToast("error", `User Update Failed: ${error.response?.data?.message || 'Unknown error'}`);
         }
     };
+    
 
     const handleChangePassword = async (e) => {
         e.preventDefault();
@@ -197,19 +216,42 @@ const EditUser = () => {
                     </div>
                     <div className="form-group">
                         <label>Email</label>
-                        <input type="email" className="form-control" name="email" value={formData.email} onChange={handleChange} />
+                        <input type="email" className="form-control" name="email" autoComplete="off" value={formData.email} onChange={handleChange} />
                     </div>
                     <div className="form-group col-md-4">
-                        <label>Phone</label>
-                        <div style={{ display: "flex", gap: "10px" }}>
-                        <input type="text" className="form-control" name="phone" value={formData.phone} onChange={handleChange} />
-                    </div>
+                    <label>Phone</label>
+                    <div style={{ display: "flex", gap: "10px" }}>
+                        <select
+                        name="countryCode"
+                        className="form-control"
+                        style={{ width: "30%" }}
+                        value={formData.countryCode}
+                        onChange={handleChange}
+                        >
+                        {countryCodes.map((item, index) => (
+                            <option key={index} value={item.code}>
+                            {item.code} ({item.country})
+                            </option>
+                        ))}
+                        </select>
+                        <input
+                        type="text"
+                        className="form-control"
+                        style={{ width: "70%" }}
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        autoComplete="off"
+                        />
+                    </div>    
+
                     </div>
                     <div className="form-group col-md-4">
                                     <label>Role</label>
                                     <select name="role" value={formData.role}
-                                    onChange={handleChange} className="form-control" required>
-                                        {/* <option value="">Select Role</option> */}
+                                    onChange={handleChange} className="form-control"
+                                    autoComplete="off"
+                                     required>
                                         {roles.map((role) => (
                                             <option key={role.id} value={role.roleName}>{role.roleName}</option>
                                         ))}

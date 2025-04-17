@@ -63,6 +63,6 @@ const Permission = sequelize.define('permission', {
 });
 
 
-// Permission.sync({alter: true});
+Permission.sync();
 
 export { Permission };

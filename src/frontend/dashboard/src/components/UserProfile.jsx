@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import showToast from '../helper/Toast';
 import logo from '../assets/logo.bmp';
+// import PageWrapper from '../helper/Scroll';
 
 const UserProfile = () => {
     const [user, setUser] = useState({
@@ -144,8 +145,7 @@ const UserProfile = () => {
             </div>
         </div>
     </div>
-</div>
-
+</div> 
     );
 };
 

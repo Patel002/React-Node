@@ -13,10 +13,14 @@ import EditUser from "./components/EditUser";
 import ProtectedRoute from  "./components/ProtectedRoutes";
 import UnauthorizedPage from "./components/UnAuthorizedPage";
 import UserProfile from "./components/UserProfile";
+import Info from "./components/Info";
+import Setting from "./components/Settings";
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
     return (
       <Router>
+      <AnimatePresence mode="sync">
       <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
@@ -27,15 +31,20 @@ function App() {
               <Route path="menu" element={<MenuManagement />} />
               <Route path="submenu" element={<SubMenu />} />
               <Route path="roleselection" element={<RoleSelection />} />
-              <Route path="/permissions" element={<RolePermission />} />
+              <Route path="permissions" element={<RolePermission />} />
               <Route path="user" element={<User />} />
-              <Route path="/edituser" element={<EditUser />} />
-          </Route>
+              <Route path="edituser" element={<EditUser />} />
+          </Route>  
+
           <Route path="dashboard" element={<Dashboard />} />
+            <Route path="user-profile" element={<UserProfile />} />
           <Route path="unauthorized" element={<UnauthorizedPage />} />
-            <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="menu/master/companyInfo" element={<Info />} />
+          <Route path="settings/:section?" element={<Setting />} />
           </Route>
+          
       </Routes>
+      </AnimatePresence>
   </Router>
 
     );

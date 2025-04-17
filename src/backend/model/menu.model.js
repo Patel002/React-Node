@@ -31,6 +31,6 @@ const Menu = sequelize.define('menu', {
     }
 })
 
-// Menu.sync({alter: true});
+// Menu.sync({force:true});
 
 export { Menu };

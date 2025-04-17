@@ -223,7 +223,7 @@ const MenuManagement = () => {
                                                 <tr key={menuItem.id}>
                                                     <td>{menuItem.menuName}</td>
                                                     <td>{menuItem.icon}</td>
-                                                    <td>{menuItem.parent || "None"}</td>
+                                                    <td>{menuItem.parent || ""}</td>
                                                     <td>{menuItem.active}</td>
                                                     <td>
                                                         <button className="btn btn-primary btn-sm mx-1" onClick={() => handleEdit(menuItem)}><i className="fas fa-edit"></i></button>
