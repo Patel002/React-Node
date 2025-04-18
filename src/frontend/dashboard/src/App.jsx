@@ -20,7 +20,7 @@ import { AnimatePresence } from 'framer-motion';
 function App() {
     return (
       <Router>
-      <AnimatePresence mode="sync">
+      <AnimatePresence mode="wait">
       <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />

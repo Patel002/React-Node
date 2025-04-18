@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
 import { SettingsContext } from "../context/SettingsContext";
+import showToast from "../helper/Toast";
 
 const Setting = () => {
 
@@ -97,11 +98,11 @@ const Setting = () => {
           });
         }
       }
-      alert(`term Saved successfully`);
+      showToast('success',`Term Saved successfully`);
       fetchTerms();
       } catch (error) {
         console.error("Error saving term", error);
-        alert("Error saving term");
+        showToast("error","Error saving term");
       }
     };
     
@@ -171,10 +172,10 @@ const Setting = () => {
           }
         }
     
-        alert("GL Code mappings saved successfully.");
+        showToast("success","GL Code mappings saved successfully.");
       } catch (error) {
         console.error("Error saving mappings:", error);
-        alert("Failed to save mappings.");
+        showToast("error","Failed to save mappings.");
       }
     };
 
@@ -215,17 +216,17 @@ const Setting = () => {
             await axios.patch(`http://localhost:7171/api/settings/update/${infoId}`, {
               title: title,
             });
-            alert("Info updated successfully");
+            showToast("success","Info updated successfully");
           } else {
             const res = await axios.post("http://localhost:7171/api/settings/set-settings", {
               title: title,
             });
             setInfoId(res.data?.data?.id);
-            alert("Info created successfully");
+            showToast("success","Info created successfully");
           }
         } catch (err) {
           console.error("Error saving info:", err.message);
-          alert("Failed to save info");
+          showToast("error","Failed to save info");
         }
       };
 
@@ -275,7 +276,7 @@ const Setting = () => {
 
       {minQuoteEnabled && (
         <div className="mb-3">
-          <label>No. of Supplier Quotes</label>
+          <label>No.tof Supplier Quotes</label>
           <input
             type="number"
             className="form-control "

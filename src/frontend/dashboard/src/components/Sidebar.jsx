@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import { jwtDecode } from "jwt-decode";
 import "../css/Sidebar.css";
 
 const SidebarMenu = ({ menuStructure, role }) => {
@@ -93,10 +94,30 @@ const SidebarMenu = ({ menuStructure, role }) => {
         });
     };
 
+
     const handleLogout = () => {
         sessionStorage.removeItem("token");
         window.location.href = "/login";
     };
+
+    const isTokenExpired = (token) => {
+        try {
+            const decodedToken = jwtDecode(token);
+            const now = Date.now() / 1000;
+            return decodedToken.exp < now && decodedToken.exp;
+        } catch (err) {
+            return err.messageyy;
+        }
+    }
+
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+
+        if(!token || isTokenExpired(token)) {
+            handleLogout();
+        }
+    },[]);
+
 
     if (!tokenRole || tokenRole !== role) {
         return null;
